@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+#virtual envs
+teste-maicondmenezes-env/
+vough_backend/testeApiGithub.py
+
 # Distribution / packaging
 .Python
 build/

@@ -19,3 +19,4 @@ class OrganizationViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, login=None):
         return Response({})
+ 
