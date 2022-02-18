@@ -1,4 +1,4 @@
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, filters
 from rest_framework.views import Response
 
 from api import models, serializers
@@ -7,10 +7,10 @@ from api.integrations.github import GithubApi
 from django.shortcuts import get_object_or_404
 
 # TODOS:
-# 1 - Buscar organização pelo login através da API do Github
-# 2 - Armazenar os dados atualizados da organização no banco
-# 3 - Retornar corretamente os dados da organização
-# 4 - Retornar os dados de organizações ordenados pelo score na listagem da API
+# 1 - Buscar organização pelo login através da API do Github - feito
+# 2 - Armazenar os dados atualizados da organização no banco - feito
+# 3 - Retornar corretamente os dados da organização - feito
+# 4 - Retornar os dados de organizações ordenados pelo score na listagem da API -feito
 
 
 class OrganizationViewSet(viewsets.ModelViewSet):
@@ -18,6 +18,9 @@ class OrganizationViewSet(viewsets.ModelViewSet):
     queryset = models.Organization.objects.all()
     serializer_class = serializers.OrganizationSerializer
     lookup_field = "login"
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['score', 'login', 'name']
+    ordering = ['score']
 
     def retrieve(self, request, login=None):
         gitApi = GithubApi()
@@ -33,6 +36,11 @@ class OrganizationViewSet(viewsets.ModelViewSet):
         organization.save()
         org_serializer = serializer(organization)
         
-        return Response(org_serializer.data)
+        if(organization):
+            res_status = status.HTTP_200_OK    
+        else:
+            res_status = status.HTTP_404_NOT_FOUND
+
+        return Response(org_serializer.data, status=res_status)
         
  

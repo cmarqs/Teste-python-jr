@@ -1,100 +1,67 @@
-# Teste Técnico Desenvolvedor(a) Python Júnior [REMOTO]
+# VendorsRestApi
+A little project to design an application who registrate a vendor and products catalogues in django.
 
-Neste repositório você encontra o enunciado do teste técnico para a vaga de Desenvolvedor(a) Python Júnior [REMOTO].
+## Description:
 
-## PROBLEMA
+For this example I chose to implement the solution using django with the django-rest-framework. It's all very clean, no setups and infinite configs, with few lines and less than 6 hours of hard work, voialá, we have an api that is scalable, easy to maintain, with understandable code and very easy to test too. Well, this comes with some drawbacks, it's true, and maybe the performance makes things a little less attractive, but it's still functional and I only had to spend 1/3 of the time it would take to build a new REST API from scratch.
 
-A companhia de marketing Vough tem trabalhado cada vez mais para empresas de tecnologia que disponibilizam código aberto.
+This project was developed in a Raspaberry Pi 4 with 4 GB RAM and Running Raspbian GNU/Linux 10 (buster)(my learning programming machine); My IDE setup is quite simple just the basics (VS Code, with some python intellisense and black for prettier code format ).
 
-Com o aumento das demandas surgiu a necessidade de rankear seus atuais e potenciais clientes por um nível de prioridade, de modo a dar preferência a projetos de empresas maiores e mais influentes no meio open source.
+### Dependencies:
 
-## SOLUÇÃO
+|Package             | Version  |
+|--------------------| ---------|
+| Django             | 3.2.7    |
+| django-filter      |  2.4.0   |
+| django-grappelli   |  2.15.1  |
+| django-localflavor |  3.1     |
+| django-model-utils |  4.1.1   |
+| djangorestframework|  3.12.4  |
+| factory-boy        |  3.2.0   |
+| psycopg2           |  2.9.1   |
+| pytest             |  6.2.5   |
+| pytest-cov         |  2.12.1  |
+| pytest-django      |  4.4.0   |
 
-Para auxiliar a Vough, você deve desenvolver uma API que calcula o valor de prioridade de cada cliente e retorna uma lista de clientes ordenandos por prioridade.
+_See the full requirements list on requirements.txt_
 
-Na versão inicial da API, o valor de prioridade é calculado com base em dados encontrados no Github, através da seguinte fórmula:
+## How to Run (Installing, Setup, Test):
 
-`prioridade = <quantidade de membros públicos da organização no Github> + <quantidade de repositórios públicos da organização no Github>`
+- Download this repository and create an virtual enviroment using any virtual enviroment management system that you prefer
 
-Na raiz deste repositório você encontra uma base para o projeto na pasta `vough_backend`. A API foi desenvolvida em Django/Python e seu dever é completar este projeto com as funcionalidades que estão faltando.
+- Install all dependecies with 'pipenv install' on your local repository folder like the example:
 
-Para isso, foram passados alguns requisitos técnicos:
-
-- Deve utilizar a [API Rest do Github](https://docs.github.com/pt/free-pro-team@latest/rest) para coletar as informações referentes às organizações.
-
-- Deve possuir um endpoint para consultar uma organização específica através do nome (`login`):
-
-```
-GET /api/orgs/<login>/
-```
-
-Esse endpoint deverá apresentar os dados no seguinte formato:
-
-```
-{
-    "login": "string",
-    "name": "string",
-    "score": int
-}
+```bash
+myuser@mydevice:~/my/local/folder $ pipenv install
 ```
 
-Onde o `score` é o nível de prioridade da organização.
-Em caso de sucesso, o status `200` deverá ser retornado.
-Caso a empresa não seja encontrada, deve retornar o status `404`.
+- then if you don't receive any error just run server with the command bellow
 
-- Deve possuir um endpoint para a listagem de todas as organizações já consultadas através da API:
-
+```bash
+(my-env) myuser@mydevice:~/my/local/folder $ ./manage.py runserver
 ```
-GET /api/orgs/
-```
+_Make sure that you got the correct URL(probabily: 127.0.0.1:8000) from comand results and if you dont receive any error..._
 
-Esse endpoint deverá apresentar os dados no seguinte formato:
+# Congrats Now you have a restful api running !!
 
-```
-[
-  {
-    "login": "string",
-    "name": "string",
-    "score": int
-  },
-  {
-    "login": "string",
-    "name": "string",
-    "score": int
-  },
-  ...
-]
-```
+##
 
-As organizações listadas aqui devem estar ordenadas pela prioridade (`score`), da maior para a menor.
+### For rest api front-end with the awesome django-rest-framework
+- you should get access at http://127.0.0.1:8000 if there is no other server running on your device, but it is better to check the results of the 'runserver' command and make sure you have the correct url
 
-- Deve possuir um endpoint para a remoção de organizações da listagem:
+### For admin-django front-end with the pretty grappelli theme
+- http://127.0.0.1:8000/admin (once more, make sure that you have the correct url man)
 
-```
-DELETE /api/orgs/<login>/
-```
+### Postman (Collection and Workspace)
 
-Em caso de sucesso, o status `204` deverá ser retornado.
-Caso a empresa não seja encontrada, deve retornar o status `404`.
+- For test API maybe you can use  [this](https://www.getpostman.com/collections/) quite simple collection.
 
-## AVALIAÇÃO
+- Or test directly from [this](https://app.getpostman.com/) workspace.
 
-Iremos avalias não só se a aplicação funciona, mas também a organização e a forma de codificar e resolver o problema. Após terminar a implementação, suba o teste no seu git e avise-nos.
+- But if you like do things on your way the [API Postman Collection](postman_collection.json) also is available on root folder of this project
 
-## RECOMENDAÇÕES
+## API documentation
+You can found more detailed information about the api [here](https://documenter.getpostman.com/)
 
-- Use Python >= 3.7
-- Siga a PEP-8.
-- Use Git.
-- [Escreva mensagens claras no Git](https://www.git-tower.com/learn/git/ebook/en/command-line/appendix/best-practices).
-- Escreva testes unitários!
-- Modele o banco de dados com cautela e procure representar as entidades corretamente.
-- Siga as [boas práticas](https://swagger.io/resources/articles/best-practices-in-api-design/) para o desenvolvimento de APIs RESTful.
-- Documente sua aplicação:
-  - Descreva sua aplicação e os problemas que ela resolve.
-  - Dê instruções de como executar os testes e a sua aplicação.
-  - Documente os endpoints da API (ex.: Swagger).
-
-
-
-Este teste foi originalmente desenvolvido pela [Instruct](https://instruct.com.br/)
+## Online Example
+You can see how it's works on 
