@@ -20,27 +20,29 @@ class OrganizationViewSet(viewsets.ModelViewSet):
     lookup_field = "login"
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['score', 'login', 'name']
-    ordering = ['score']
+    ordering = ['-score']
 
-    def retrieve(self, request, login=None):
-        gitApi = GithubApi()
-        queryset = models.Organization.objects.all()
+    def retrieve(self, request, login=None):        
         serializer = serializers.OrganizationSerializer
-        organization = get_object_or_404(queryset, pk=login)
-        response = gitApi.get_organization(login=organization.login)        
-
-        org_public_repos = response.json()['public_repos']
-        org_public_members = gitApi.get_organization_public_members(login=organization.login)
-
-        organization.score = org_public_repos + org_public_members
-        organization.save()
-        org_serializer = serializer(organization)
+        gitApi = GithubApi()        
         
-        if(organization):
-            res_status = status.HTTP_200_OK    
+        response = gitApi.get_organization(login=login)
+        
+        if(response.status_code == 200):
+            response_dict = response.json()
+            org_public_repos = response_dict['public_repos']
+            org_public_members = gitApi.get_organization_public_members(login=response_dict['login'])
+            score = org_public_repos + org_public_members
+            organization = models.Organization(
+                login=response_dict['login'], name=response_dict['name'], score=score
+            )
+            organization.save()
+            data = serializer(organization).data
+            res_status = status.HTTP_200_OK  
         else:
+            data = {}
             res_status = status.HTTP_404_NOT_FOUND
 
-        return Response(org_serializer.data, status=res_status)
+        return Response(data, status=res_status)
         
  

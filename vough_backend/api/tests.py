@@ -35,3 +35,26 @@ class GithubApiTestCase(TestCase):
     score_from_githubApi = org_public_repos + org_public_members    
 
     self.assertEqual(score_from_voughAPI, score_from_githubApi)
+
+  def test_organizations_list(self):
+    orgs = [ 
+      'adobe',
+      'RedHatOfficial',
+      'cfpb',
+      'Netflix',
+      'Esri',
+      'square',
+      'twitter',
+      'gilt',
+    ]
+
+    for org in orgs:
+      url = 'http://localhost:8000/api/orgs/'+org
+      response = requests.get(url)
+    
+    url = 'http://localhost:8000/api/orgs/'
+    response = requests.get(url)
+    
+    self.assertEqual(len(orgs), response.json()['count'])
+
+
