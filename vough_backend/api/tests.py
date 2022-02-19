@@ -9,17 +9,21 @@ class GithubApiTestCase(TestCase):
   
   def test_get_organization(self):
     
-    response = gitApi.get_organization(login='Netflix')
-    
+    #Consulta se org que existe retorna 200
+    response = gitApi.get_organization(login='Netflix')    
     self.assertEqual(response.status_code, 200)
+    
+    #Consulta se org que não existe retorna 404
+    response = gitApi.get_organization(login='abcdef1235673')    
+    self.assertEqual(response.status_code, 404)
 
   def test_get_organization_public_members(self):
     
-    response = gitApi.get_organization_public_members(login='Netflix')
-    
+    response = gitApi.get_organization_public_members(login='Netflix')    
     self.assertEqual(response, 21)
   
   def test_calculate_organization_score(self):
+    
     url = 'https://api.github.com/orgs/Netflix'
     response = requests.get(url)
     org_public_repos = response.json()['public_repos']
@@ -37,6 +41,7 @@ class GithubApiTestCase(TestCase):
     self.assertEqual(score_from_voughAPI, score_from_githubApi)
 
   def test_organizations_list(self):
+    
     orgs = [ 
       'adobe',
       'RedHatOfficial',
