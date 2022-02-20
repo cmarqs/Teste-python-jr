@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import django_heroku
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,6 +29,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+#Github API enviroment variables
+
+os.environ['GITHUB_API_URL']='https://api.github.com'
+os.environ['GITHUB_TOKEN']='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'
 
 # Application definition
 
@@ -40,6 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "api",
+    "django_filters",
 ]
 
 MIDDLEWARE = [
@@ -76,7 +82,10 @@ WSGI_APPLICATION = "vough_backend.wsgi.application"
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.AllowAny",
-    ],
+    ],    
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 100,
 }
 
 # Database

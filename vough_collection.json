@@ -1,0 +1,142 @@
+{
+	"info": {
+		"_postman_id": "7d3b313c-bf83-4c48-b023-ddce62538fd6",
+		"name": "Vough Collection",
+		"description": "Vough Backend:A little project to design an API who consultin organizations from Github API, calculate a priority score based on public repositories and public members and finally registrate this informations on own database.\n\nDescription:The core of this API is in the Github *integration functions* and the *retrieve* method of the organization model's viewset. There are two integration functions, one responsible for querying a specific organization through the Github API (get_organization()) and another for calculating the number of public members of a given organization(get_organization_public_members()).",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Organization List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://maicondmenezes.pythonanywhere.com/api/orgs",
+					"protocol": "http",
+					"host": [
+						"maicondmenezes",
+						"pythonanywhere",
+						"com"
+					],
+					"path": [
+						"api",
+						"orgs"
+					]
+				},
+				"description": "##### The orgs endpoint has pagination with a range of 100 itens;\n\n##### The list is sorted by score in descending order;\n\n##### This endpoint supports filtering parameters;"
+			},
+			"response": []
+		},
+		{
+			"name": "Especific Organization - 404 error",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://maicondmenezes.pythonanywhere.com/api/orgs/ABC123",
+					"protocol": "http",
+					"host": [
+						"maicondmenezes",
+						"pythonanywhere",
+						"com"
+					],
+					"path": [
+						"api",
+						"orgs",
+						"ABC123"
+					]
+				},
+				"description": "Basic exemple of a bad request using an unknown organization."
+			},
+			"response": []
+		},
+		{
+			"name": "Especific Organization - 200 status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://maicondmenezes.pythonanywhere.com/api/orgs/Netflix/",
+					"protocol": "http",
+					"host": [
+						"maicondmenezes",
+						"pythonanywhere",
+						"com"
+					],
+					"path": [
+						"api",
+						"orgs",
+						"Netflix",
+						""
+					]
+				},
+				"description": "When a specific organization is queried as part of the endpoint, the API retrieves the information directly from the Github servers through the internal API, calculates the priority score and records it in its own database or updates, if the instance already exists."
+			},
+			"response": []
+		},
+		{
+			"name": "Especific Organization - DELETE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var orgs = [ \r",
+							"      'adobe',\r",
+							"      'RedHatOfficial',\r",
+							"      'cfpb',\r",
+							"      'Netflix',\r",
+							"      'Esri',\r",
+							"      'square',\r",
+							"      'twitter',\r",
+							"      'gilt',\r",
+							"]\r",
+							"var url = \"http://maicondmenezes.pythonanywhere.com/api/orgs/\"\r",
+							"orgs.forEach(function (item, indice, array ){\r",
+							"    let request_url = url+item\r",
+							"    pm.sendRequest(request_url, function (err, response) {\r",
+							"        console.log(response.json());\r",
+							"    });\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://maicondmenezes.pythonanywhere.com/api/orgs/Netflix/",
+					"protocol": "http",
+					"host": [
+						"maicondmenezes",
+						"pythonanywhere",
+						"com"
+					],
+					"path": [
+						"api",
+						"orgs",
+						"Netflix",
+						""
+					]
+				},
+				"description": "Basic example for a DELETE request."
+			},
+			"response": []
+		}
+	]
+}

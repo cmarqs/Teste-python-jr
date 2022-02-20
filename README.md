@@ -1,100 +1,65 @@
-# Teste Técnico Desenvolvedor(a) Python Júnior [REMOTO]
+# Vough Backend
 
-Neste repositório você encontra o enunciado do teste técnico para a vaga de Desenvolvedor(a) Python Júnior [REMOTO].
+A little project to design an API who consultin organizations from Github API, calculate a priority score based on public repositories and public members and finally registrate this informations on own database.
 
-## PROBLEMA
+## Description
 
-A companhia de marketing Vough tem trabalhado cada vez mais para empresas de tecnologia que disponibilizam código aberto.
+The core of this API is in the Github _integration functions_ and the _retrieve_ method of the organization model's viewset. There are two integration functions, one responsible for querying a specific organization through the Github API (get_organization()) and another for calculating the number of public members of a given organization(get_organization_public_members()).
 
-Com o aumento das demandas surgiu a necessidade de rankear seus atuais e potenciais clientes por um nível de prioridade, de modo a dar preferência a projetos de empresas maiores e mais influentes no meio open source.
+This project was developed in a Philco Notebook Model: with 3 GB RAM and Running Windows 7 32bit's; My IDE setup is quite simple just the basics (VS Code, with some python intellisense and black for prettier code format ).
 
-## SOLUÇÃO
+### Dependencies
 
-Para auxiliar a Vough, você deve desenvolver uma API que calcula o valor de prioridade de cada cliente e retorna uma lista de clientes ordenandos por prioridade.
+|Package             | Version  |
+|--------------------| ---------|
+| django             |  3.1.1   |
+| django-filter      |  2.4.0   |
+| djangorestframework|  3.12.4  |
+| requests           |  2.25.1  |
+| pipenv             |  *       |
 
-Na versão inicial da API, o valor de prioridade é calculado com base em dados encontrados no Github, através da seguinte fórmula:
+_See the full requirements list on Pipfile and Pipfile.lock_
 
-`prioridade = <quantidade de membros públicos da organização no Github> + <quantidade de repositórios públicos da organização no Github>`
+## How to Run (Installing, Setup, Test)
 
-Na raiz deste repositório você encontra uma base para o projeto na pasta `vough_backend`. A API foi desenvolvida em Django/Python e seu dever é completar este projeto com as funcionalidades que estão faltando.
+- Download this repository and create an virtual enviroment using pipenv 'pipenv shell'
 
-Para isso, foram passados alguns requisitos técnicos:
+- Install all dependecies with 'pipenv install' on your local repository folder like the example:
 
-- Deve utilizar a [API Rest do Github](https://docs.github.com/pt/free-pro-team@latest/rest) para coletar as informações referentes às organizações.
-
-- Deve possuir um endpoint para consultar uma organização específica através do nome (`login`):
-
-```
-GET /api/orgs/<login>/
-```
-
-Esse endpoint deverá apresentar os dados no seguinte formato:
-
-```
-{
-    "login": "string",
-    "name": "string",
-    "score": int
-}
+```bash
+myuser@mydevice:~/my/local/folder $ pipenv shell
 ```
 
-Onde o `score` é o nível de prioridade da organização.
-Em caso de sucesso, o status `200` deverá ser retornado.
-Caso a empresa não seja encontrada, deve retornar o status `404`.
-
-- Deve possuir um endpoint para a listagem de todas as organizações já consultadas através da API:
-
-```
-GET /api/orgs/
+```bash
+myuser@mydevice:~/my/local/folder $ pipenv install
 ```
 
-Esse endpoint deverá apresentar os dados no seguinte formato:
+- then if you don't receive any error just run server with the command bellow
 
-```
-[
-  {
-    "login": "string",
-    "name": "string",
-    "score": int
-  },
-  {
-    "login": "string",
-    "name": "string",
-    "score": int
-  },
-  ...
-]
+```bash
+(my-env) myuser@mydevice:~/my/local/folder $ ./manage.py runserver
 ```
 
-As organizações listadas aqui devem estar ordenadas pela prioridade (`score`), da maior para a menor.
+_Make sure that you got the correct URL(probabily: 127.0.0.1:8000) from comand results and if you dont receive any error..._
 
-- Deve possuir um endpoint para a remoção de organizações da listagem:
+## Congrats Now you have a restful api running
 
-```
-DELETE /api/orgs/<login>/
-```
+### For rest api front-end with the awesome django-rest-framework
 
-Em caso de sucesso, o status `204` deverá ser retornado.
-Caso a empresa não seja encontrada, deve retornar o status `404`.
+- you should get access at <http://127.0.0.1:8000/api> if there is no other server running on your device, but it is better to check the results of the 'runserver' command and make sure you have the correct url
 
-## AVALIAÇÃO
+### Postman (Collection and Workspace)
 
-Iremos avalias não só se a aplicação funciona, mas também a organização e a forma de codificar e resolver o problema. Após terminar a implementação, suba o teste no seu git e avise-nos.
+- For test API maybe you can use  [this](https://www.postman.com/maicondmenezes/workspace/devtest/collection/16903109-7d3b313c-bf83-4c48-b023-ddce62538fd6) quite simple collection.
 
-## RECOMENDAÇÕES
+- Or test directly from [this](https://www.postman.com/maicondmenezes/workspace/devtest) workspace.
 
-- Use Python >= 3.7
-- Siga a PEP-8.
-- Use Git.
-- [Escreva mensagens claras no Git](https://www.git-tower.com/learn/git/ebook/en/command-line/appendix/best-practices).
-- Escreva testes unitários!
-- Modele o banco de dados com cautela e procure representar as entidades corretamente.
-- Siga as [boas práticas](https://swagger.io/resources/articles/best-practices-in-api-design/) para o desenvolvimento de APIs RESTful.
-- Documente sua aplicação:
-  - Descreva sua aplicação e os problemas que ela resolve.
-  - Dê instruções de como executar os testes e a sua aplicação.
-  - Documente os endpoints da API (ex.: Swagger).
+- But if you like do things on your way the [API Postman Collection](vough_collection.json) also is available on root folder of this project
 
+## API documentation
 
+You can found more detailed information about the api [here](https://documenter.getpostman.com/view/16903109/UVkjwxv6)
 
-Este teste foi originalmente desenvolvido pela [Instruct](https://instruct.com.br/)
+## Online Example
+
+You can see how it's works on <http://maicondmenezes.pythonanywhere.com/api>
